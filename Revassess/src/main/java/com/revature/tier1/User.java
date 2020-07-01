@@ -1,4 +1,4 @@
-package com.tier1;
+package com.revature.tier1;
 
 public class User {
 	public Integer id;
