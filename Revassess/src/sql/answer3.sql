@@ -1,0 +1,1 @@
+select * from app_user join study_set on user_id = owner_id where user_id = 5
