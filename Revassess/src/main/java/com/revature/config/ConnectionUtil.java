@@ -1,6 +1,13 @@
 package com.revature.config;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import oracle.jdbc.OracleTypes;
+
+import java.sql.CallableStatement;
 
 /**
  * 
@@ -24,17 +31,41 @@ public class ConnectionUtil {
 	// name of the created stored procedure in tier 3
 	public static final String TIER_3_PROCEDURE_NAME = "user_study_sets";
 	// name of the created sequence in tier 3
-	public static final String TIER_3_SEQUENCE_NAME = "test_sequence";
+	public static final String TIER_3_SEQUENCE_NAME = "";
 
 	// implement this method to connect to the db and return the connection object
 	public Connection connect(){
-		return null;
+		Connection conn = null;
+		try
+		{
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+		} // end try
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		} // end catch
+		return conn;
 	}
 
 
 	//implement this method with a callable statement that calls the absolute value sql function
 	public long callAbsoluteValueFunction(long value){
-		return value;
+		long abs = 0;
+		try (Connection conn = cu.connect()) {
+
+			String sql = "select ABS(?) from dual";
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setLong(1, value);
+
+			ResultSet rs = pstmt.executeQuery(sql);
+			
+			abs = rs.getLong(0);
+
+		} catch (Exception e) {
+			System.out.println("Exception: " + e);
+		}
+		return abs;
 	}
 	
 
