@@ -39,6 +39,7 @@ test(){
                     cd ../
             done
     fi
+​
     git checkout master
 }
 test
