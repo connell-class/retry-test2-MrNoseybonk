@@ -25,18 +25,19 @@ test(){
             git pull
             cd ./Revassess/
             for j in 3 4 5 6
-                pass="`mvn clean test -Dtest=Tier${i}Tests`"
-                exitCode="`echo $pass | grep PointsTests | grep -c FAILURE`"
-                tierPoints="`echo $pass | grep -oE '_points:[0-9]+' | grep -Eo '[0-9]+'`"
-                points="`expr $points + $tierPoints`"
-                if (( $exitCode > 0 ))
-                    then
-                        failedTier=$j
-                        break
-                fi
-        fi
+            do
+                    pass="`mvn clean test -Dtest=Tier${i}Tests`"
+                    exitCode="`echo $pass | grep PointsTests | grep -c FAILURE`"
+                    tierPoints="`echo $pass | grep -oE '_points:[0-9]+' | grep -Eo '[0-9]+'`"
+                    points="`expr $points + $tierPoints`"
+                    if (( $exitCode > 0 ))
+                        then
+                            failedTier=$j
+                            break
+                    fi
+            done
+    fi
         cd ../
-    done
 ​
     git checkout master
 }
