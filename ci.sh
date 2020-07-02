@@ -12,11 +12,12 @@ test(){
         points="`expr $points + $tierPoints`"
         mvn clean
     # if a tier failed, break and report
-	if (( $exitCode > 0 ))
-        then
-            failedTier=$i
-            break
-    fi
+        if (( $exitCode > 0 ))
+            then
+                failedTier=$i
+                break
+        fi
+        cd ../
     done
     # exit previous loop and check variable for if assessment failed
     if [ $exitCode -eq 0 ]
@@ -35,9 +36,9 @@ test(){
                             failedTier=$j
                             break
                     fi
+                    cd ../
             done
     fi
-        cd ../
 ​
     git checkout master
 }
