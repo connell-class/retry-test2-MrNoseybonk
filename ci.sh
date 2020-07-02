@@ -1,6 +1,6 @@
 git config --global pull.rebase false
 test(){
-    for i in 1 2 3456
+    for i in 1 2 s3456
     do
         git checkout tier$i
         git pull
@@ -9,6 +9,7 @@ test(){
         exitCode="`echo $pass | grep PointsTests | grep -c FAILURE`"
       	tierPoints="`echo $pass | grep -oE '_points:[0-9]+' | grep -Eo '[0-9]+'`"
         points="`expr $points + $tierPoints`"
+        mvn clean
 	if (( $exitCode > 0 ))
         then
             failedTier=$i
